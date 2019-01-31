@@ -1,0 +1,4 @@
+The old syntax sc_start(int) was deprecated when we removed the sc_set_default_time_unit(sc_time) concept. Your choices for sc_start are limited to:
+	a) sc_start(void)
+	b) sc_start(sc_time)
+	c) sc_start(double)

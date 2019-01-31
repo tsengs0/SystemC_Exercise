@@ -1,0 +1,2 @@
+1. sc_clock cannnot be ported to sc_in< sc_uint<1> >, instead sc_in<bool>
+2. The g++ option "-std=c++11" will incur some linker problems
