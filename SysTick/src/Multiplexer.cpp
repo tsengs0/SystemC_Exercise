@@ -13,11 +13,5 @@ void mux_4x1::MUX_Proc(void)
 
 void mux_2x1::MUX_Proc(void)
 {
-	sc_uint<2> Data_Temp;
-	sc_uint<1> SEL_Temp;
-
-	Data_Temp = (Data0, Data1);//Data.read();
-	SEL_Temp  = SEL.read();
-
-	Dout = Data_Temp[SEL_Temp];
+	Dout = (Data0 & !SEL.read()) | (Data1 & SEL.read());
 }

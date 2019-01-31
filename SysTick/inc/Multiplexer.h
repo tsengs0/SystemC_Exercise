@@ -1,7 +1,7 @@
 #ifndef __MUX_H
 #define __MUX_H
 
-#include <systemc>
+#include <systemc.h>
 
 SC_MODULE( mux_4x1 )
 {
@@ -22,8 +22,8 @@ SC_MODULE( mux_4x1 )
 
 SC_MODULE( mux_2x1 )
 {
-	sc_in< sc_uint<1> > Data0;
-	sc_in< sc_uint<1> > Data1;
+	sc_in<bool> Data0;
+	sc_in<bool> Data1;
 	sc_in< sc_uint<1> > SEL;
 	sc_out<bool> Dout;
 
