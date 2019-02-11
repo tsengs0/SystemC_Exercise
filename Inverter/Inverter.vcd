@@ -1,9 +1,9 @@
 $date
-     Aug 18, 2016       16:38:05
+     Feb 11, 2019       21:06:58
 $end
 
 $version
- SystemC 2.3.1-Accellera --- Feb 21 2016 11:32:35
+ SystemC 2.3.2-Accellera --- Feb 11 2019 20:49:58
 $end
 
 $timescale
@@ -21,15 +21,12 @@ All initial values are dumped below at time 0 sec = 0 timescale units.
 $end
 
 $dumpvars
-0aaaaa
-1aaaab
-$end
-
-#0
 1aaaaa
 0aaaab
+$end
 
 #1250000
 0aaaaa
 1aaaab
 
+#2500000
