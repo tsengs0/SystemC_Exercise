@@ -1,2 +1,5 @@
 1. sc_clock cannnot be ported to sc_in< sc_uint<1> >, instead sc_in<bool>
 2. The g++ option "-std=c++11" will incur some linker problems
+3. wait() is only allowed in SC_THREADs and SC_CTHREADs; in SC_METHODs use next_trigger() instead
+4. The initialisation of input or output port, i.e., sc_in and sc_out, must not be performed berfore the constructor.
+
