@@ -18,10 +18,10 @@ SC_MODULE(Counter_24)
 	SC_CTOR(Counter_24) 
 	{
 		SC_METHOD(proc);
-		sensitive << clk.pos();
+		sensitive << clk.pos()
 		          << counter_rstn;
 		
-		val.write((sc_uint<24>) 0);
+		val.range(23, 0) = (sc_uint<24>) 0;
 		preset_flag.write(false);
 		// The port should not be accessed inside constructor
 		//val.range(25, 0) = reload_val;

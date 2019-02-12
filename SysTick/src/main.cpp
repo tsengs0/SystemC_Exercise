@@ -5,6 +5,7 @@
 #include "../inc/counter.h"
 #include "../inc/register.h"
 #include "../inc/sys_tick_tb.h"
+#include "../inc/sys_tick.h"
 
 #define SIMULATION_FINISH 5
 
@@ -18,12 +19,10 @@ int sc_main(int argc, char *argv[]) {
 	sc_signal<bool> COUNTFLAG; // To SysTick_CTRL[16]
 
 	// Input-port probe
-	sc_signal<bool> external_clk; // => AHB_CLK / 8 
-	sc_signal<bool> proc_clk;
 	sc_signal<bool> ClkSrc_sel; // From SysTick_CTRL[2]
 	sc_signal<bool> TICKINT;    // From SysTick_CTRL[1]
 	sc_signal<bool> counter_en; // From SysTick_CTRL[0]
-	sc_signal< uint<24> > reload_val; // From SysTick_LOAD[23:0];
+	sc_signal< sc_uint<24> > reload_val; // From SysTick_LOAD[23:0];
 	sc_signal<bool> counter_rstn;
 	sc_signal<bool> preset_flag;
 	
@@ -76,8 +75,8 @@ int sc_main(int argc, char *argv[]) {
 	sc_trace(waveform, preset_flag, "preset_flag");
 
 	while(sys_tick_tb -> interrupt_cnt < SIMULATION_FINISH) {
-		external_clk -> write(false); proc_clk -> write(false); sc_start(10, SC_NS);	
-		external_clk -> write(true); proc_clk -> write(true); sc_start(10, SC_NS);	
+		external_clk.write(false); proc_clk.write(false); sc_start(10, SC_NS);	
+		external_clk.write(true); proc_clk.write(true); sc_start(10, SC_NS);	
 	}
 
 	sc_close_vcd_trace_file(waveform);	

@@ -18,22 +18,22 @@ SC_MODULE( SysTick )
 // The control signals from specific registers
 
 	// SysTick controls and status register (SysTick_CTRL)
-	sc_out<bool> COUNTFLAG; // To SysTick_CTRL[16]
-	sc_in<bool> ClkSrc_sel; // From SysTick_CTRL[2]
-	sc_in<bool> TICKINT;    // From SysTick_CTRL[1]
-	sc_in<bool> counter_en; // From SysTick_CTRL[0]
+	sc_out< sc_uint<1> > COUNTFLAG; // To SysTick_CTRL[16]
+	sc_in< sc_uint<1> > ClkSrc_sel; // From SysTick_CTRL[2]
+	sc_in< sc_uint<1> > TICKINT;    // From SysTick_CTRL[1]
+	sc_in< sc_uint<1> > counter_en; // From SysTick_CTRL[0]
 //========================================================================================//
 // The 24-bit down counter
-	sc_in<bool> SysTick_rstn;
-	sc_out<bool> preset_flag;
+	sc_in< sc_uint<1> > SysTick_rstn;
+	sc_out< sc_uint<1> > preset_flag;
 	And_2x1 *clk_en;
 	And_2x1 *interrupt_en;
 	Counter_24 *counter;
-	sc_in< uint<24> > reload_val; // From SysTick_LOAD[23:0];
+	sc_in< sc_uint<24> > reload_val; // From SysTick_LOAD[23:0];
 //========================================================================================//
 // Internal control signal
-	sc_in<bool> counter_rstn;
-	sc_signal<bool> zero_flag;
+	sc_in< sc_uint<1> > counter_rstn;
+	sc_signal< sc_uint<1> > zero_flag;
 //========================================================================================//
 // Additional funtion of System Tick
 

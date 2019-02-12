@@ -11,7 +11,7 @@ SC_MODULE( Inverter )
 
 	SC_CTOR( Inverter )
 	{
-		SC_METHOD( Inv0_Proc );
+		SC_METHOD(proc);
 		sensitive << InA;
 	}
 };

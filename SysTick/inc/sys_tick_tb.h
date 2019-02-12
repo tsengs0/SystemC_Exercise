@@ -10,24 +10,24 @@ SC_MODULE(SysTick_init)
 	sc_in<bool> zero_flag;	
 	
 	void SysTick_Initialise(void) {
-		SysTick_CTRL -> Register[CNT_EN_INDEX].write(0); // Stopping the coutner temporarily
+		SysTick_CTRL -> Register[CNT_EN_INDEX] = 0; // Stopping the coutner temporarily
 		interrupt_cnt++; // For giving the finsih signal of whole simulation
-		counter_rstn.write(false); // Control counter to preset count value and clear the zero flag
-		while(preset_flag.read() == false); // Wait until counter finishes preseting the count value
-		counter_rstn.write(true); // De-assert reset signal	
+		counter_rstn.write(0); // Control counter to preset count value and clear the zero flag
+		while(preset_flag.read() == 0); // Wait until counter finishes preseting the count value
+		counter_rstn.write(1); // De-assert reset signal	
 		
-		SysTick_CTRL -> Register[CNT_EN_INDEX].write(1); // Finish initialisation and enable the counter's clock source
+		SysTick_CTRL -> Register[CNT_EN_INDEX] = 1; // Finish initialisation and enable the counter's clock source
 	}
 
 	SC_CTOR(SysTick_init)
 	{
 		interrupt_cnt = 0;
-		SysTick_CTRL -> Register[CNT_EN_INDEX].write(0); // Disable  the system tick before all configuration
-		counter_rstn.write(false); // For simulation, presetting the value to counter first 
-		while(preset_flag.read() == false); // Wait until counter finishes preseting the count value
-		counter_rstn.write(true); // De-assert reset signal	
-		SysTick_CTRL -> Register[TICK_INT_INDEX].write(1); // Always turning on the function of system tick 
-		SysTick_CTRL -> Register[CNT_EN_INDEX].write(1); // Enable  the system tick before all configuration
+		SysTick_CTRL -> Register[CNT_EN_INDEX] = 0; // Disable  the system tick before all configuration
+		counter_rstn.write(0); // For simulation, presetting the value to counter first 
+		while(preset_flag.read() == 0); // Wait until counter finishes preseting the count value
+		counter_rstn.write(1); // De-assert reset signal	
+		SysTick_CTRL -> Register[TICK_INT_INDEX] = 1; // Always turning on the function of system tick 
+		SysTick_CTRL -> Register[CNT_EN_INDEX] = 1; // Enable  the system tick before all configuration
 		
 		SC_METHOD(SysTick_Initialise);
 		sensitive << zero_flag;		

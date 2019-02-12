@@ -42,7 +42,9 @@ main.o: src/main.cpp \
 	src/timer_reg.cpp inc/timer_reg.h \
 	src/logic_gate.cpp inc/logic_gate.h \
 	src/counter.cpp inc/counter.h \
-	inc/register.h inc/sys_tick_tb.h
+	inc/register.h \
+	inc/sys_tick_tb.h \
+	inc/sys_tick.h
 	g++ ${OPTION} $(INC_DIR) -c src/main.cpp
 	mv main.o obj/
 
