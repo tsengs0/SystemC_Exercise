@@ -33,6 +33,10 @@ SReg_32::SReg_32(char *name_in) {
 	cout << " is created and initialised: " << Register.to_string(SC_HEX) << endl; 
 }
 
+void SReg_32::setRegVal(sc_uint<32> val_in) {
+	Register.range(31, 0) = val_in.range(31, 0);
+}
+
 void SReg_32::getRegName(void) {
 	printf("Register \"%s\"", reg_name);
 }

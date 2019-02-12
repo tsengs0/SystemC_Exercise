@@ -7,8 +7,13 @@ OPTION=-Wall -O0
 APP=SysTick.bin
 COUNTER26=Counter26_sim.bin
 
-all: main.o Multiplexer.o timer_reg.o reg_format.o
-	g++ ${OPTION} -o $(APP) $(LIB_DIR) $(LIB) obj/main.o obj/Multiplexer.o obj/timer_reg.o obj/reg_format.o
+all: main.o Multiplexer.o timer_reg.o reg_format.o logic_gate.o counter.o
+	g++ ${OPTION} -o $(APP) $(LIB_DIR) $(LIB) obj/main.o \
+						  obj/Multiplexer.o \
+						  obj/timer_reg.o \
+					          obj/reg_format.o \
+						  obj/logic_gate.o \
+						  obj/counter.o 
 	mv $(APP) bin/
 
 timer_reg.o: src/timer_reg.cpp inc/timer_reg.h inc/reg_format.h
@@ -23,11 +28,21 @@ reg_format.o: src/reg_format.cpp inc/reg_format.h
 	g++ $(INC_DIR) -c src/reg_format.cpp
 	mv reg_format.o obj/ 
 
-counter.o: src/counter.cpp inc/counter.h
+counter.o: src/counter.cpp inc/counter.h inc/timer_reg.h
 	g++ $(INC_DIR) -c src/counter.cpp
 	mv counter.o obj/
 
-main.o: src/main.cpp src/reg_format.cpp inc/reg_format.h src/Multiplexer.cpp inc/Multiplexer.h src/timer_reg.cpp inc/timer_reg.h
+logic_gate.o: src/logic_gate.cpp inc/logic_gate.h
+	g++ $(INC_DIR) -c src/logic_gate.cpp
+	mv logic_gate.o obj/
+
+main.o: src/main.cpp \
+	src/reg_format.cpp inc/reg_format.h \
+	src/Multiplexer.cpp inc/Multiplexer.h \
+	src/timer_reg.cpp inc/timer_reg.h \
+	src/logic_gate.cpp inc/logic_gate.h \
+	src/counter.cpp inc/counter.h \
+	inc/register.h inc/sys_tick_tb.h
 	g++ ${OPTION} $(INC_DIR) -c src/main.cpp
 	mv main.o obj/
 

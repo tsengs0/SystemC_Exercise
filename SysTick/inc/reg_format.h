@@ -13,11 +13,13 @@ int StrCnt(char *src);
 class SReg_32 {
 	private:
 	char *reg_name;
-	sc_uint<32> Register;
+	sc_uint<32> Addr;
 
 	public:
+	sc_uint<32> Register; // 32-bit value of this register
 	SReg_32(char *name_in, sc_uint<32> val_in);
 	SReg_32(char *name_in);
+	void setRegVal(sc_uint<32> val_in);
 	void getRegName(void);
 };
 

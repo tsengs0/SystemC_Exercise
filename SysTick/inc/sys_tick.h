@@ -1,6 +1,7 @@
 #ifndef __SYS_TICK_H
 #define __SYS_TICK_H
-#include  "../inc/logic_gate.h"
+#include "../inc/logic_gate.h"
+#include "../inc/counter.h"
 
 SC_MODULE( SysTick )
 {
@@ -21,23 +22,31 @@ SC_MODULE( SysTick )
 	sc_in<bool> ClkSrc_sel; // From SysTick_CTRL[2]
 	sc_in<bool> TICKINT;    // From SysTick_CTRL[1]
 	sc_in<bool> counter_en; // From SysTick_CTRL[0]
-
-	sc_in< uint<26> > reload_val; // From SysTick_LOAD[25:0];
 //========================================================================================//
 // The 24-bit down counter
-	sc_in<bool> SysTick_rst;
+	sc_in<bool> SysTick_rstn;
+	sc_out<bool> preset_flag;
 	And_2x1 *clk_en;
 	And_2x1 *interrupt_en;
-	Counter_26 *counter;
-	sc_in< uint<26> > reload_val;
+	Counter_24 *counter;
+	sc_in< uint<24> > reload_val; // From SysTick_LOAD[23:0];
+//========================================================================================//
+// Internal control signal
+	sc_in<bool> counter_rstn;
+	sc_signal<bool> zero_flag;
+//========================================================================================//
+// Additional funtion of System Tick
+
 //========================================================================================//
 	SC_CTOR( SysTick )
 	{
-		counter = new Counter_26("counter");
-		counter -> zero(COUNTFLAG);
+		COUNTFLAG = zero_flag;
+		counter = new Counter_24("counter");
+		counter -> zero(zero_flag);
 		counter -> clk(ClkSrc);
 		counter -> reload_val(reload_val);
-		counter -> counter_rst(SysTick_rst);
+		counter -> counter_rstn(counter_rstn);
+		counter -> preset_flag(preset_flag);
 
 		clk_mux = new mux_2x1("clk_mux");
 		clk_mux -> Data0(external_clk);
@@ -52,12 +61,8 @@ SC_MODULE( SysTick )
 
 		interrupt_en = new And_2x1("interrupt_en");
 		interrupt_en -> InA(TICKINT);
-		interrupt_en -> InB(COUNTFLAG);
+		interrupt_en -> InB(zero_flag);
 		interrupt_en -> Dout(SysTick_Interrupt);
-
-		SC_METHOD( MUX_Proc );
-		sensitive << Data << SEL;
-
 	}
 };
 

@@ -2,7 +2,7 @@
 
 #define SIMULATION_FINISH 5
 
-// Simulating 26-bit count is too long
+// Simulating 24-bit count is too long
 //#define RELOAD_VALUE 0x3FFFFFF
 #define RELOAD_VALUE 0xFF
 
@@ -22,12 +22,12 @@ int sc_main(int argc, char *argv[]) {
 	
 	// Input port
 	sc_signal<bool> counter_rstn;
-	sc_signal< sc_uint<26> > reload_val;
-	reload_val.write((sc_uint<26>) RELOAD_VALUE);
+	sc_signal< sc_uint<24> > reload_val;
+	reload_val.write((sc_uint<24>) RELOAD_VALUE);
 	
 	// Port mapping
-	Counter_26 *counter;
-	counter = new Counter_26("counter");
+	Counter_24 *counter;
+	counter = new Counter_24("counter");
 	counter -> zero(zero);
 	counter -> preset_flag(preset_flag);
 	counter -> clk(xtal_clk);
@@ -43,7 +43,7 @@ int sc_main(int argc, char *argv[]) {
 	cout << "Run" << endl;
 
 	// Creating .vcd file for visualisation in waveform
-	sc_trace_file *waveform = sc_create_vcd_trace_file("Counter26_sim");
+	sc_trace_file *waveform = sc_create_vcd_trace_file("Counter24_sim");
 
 	// Dumping the desired signals
 	sc_trace(waveform, xtal_clk, "xtal_clk");
